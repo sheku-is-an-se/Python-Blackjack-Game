@@ -115,7 +115,8 @@ mydealer.Hit()
 def player_turn():
     choice = input("Welcome to blackjack, if you would like to 'hit' type hit and if you would like to 'pass' type pass").lower()
     while True:
-        if choice == 'hit'
+        if choice == 'hit':
+            pass
 
 
 
