@@ -118,6 +118,9 @@ def player_turn():
         if choice == 'hit':
             pass
 
+if 1+1 == 2:
+    print('1 plus 1 equals 2')
+
 
 
 
