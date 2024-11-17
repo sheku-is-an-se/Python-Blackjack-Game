@@ -95,7 +95,7 @@ class Dealer(Deck):
         print(f'You have 17 or more cards left; {len(self.dealer_hand)}')
         if len(self.dealer_hand) >= 17:
             user_input = input('End of Round; no more cards will be given to you, Y or N?')
-            if user_input == 'y'.upper():
+            if user_input.upper() == 'Y':
                 print('Thank you for playing, wait for results')
             else:
                 pass
@@ -103,10 +103,7 @@ mydealer = Dealer()
         
 #testing...
 
-player_one = Player('One', 500)
-dealer_one = Dealer('Sam')
-len(dealer_one.dealer_hand)
-len(player_one.all_cards)
+
 
 myplayer.Hit()
 myplayer.Hit()
@@ -118,18 +115,13 @@ def player_turn():
         if choice == 'hit':
             pass
 
-if 1+1 == 2:
-    print('1 plus 1 equals 2')
-
-
-
-#another test
 
 
 
 
 
-#def dealer_turn():
+
+
 
 
 #Im going to compare player.all_cards and dealer.all_cards, and make sure that if a card is moved from one variable, the same card is moved from the other variable
