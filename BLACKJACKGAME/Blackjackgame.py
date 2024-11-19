@@ -33,10 +33,10 @@ Using a class within another class
 class Deck(Card):
     
     def __init__(self):
-        self.all_cards = [] 
+        shared_deck = [] 
         for suit in suits:
             for rank in ranks:
-                self.all_cards.append(Card(suit,rank))
+                shared_deck.append(Card(suit,rank))
                 
 #testing...
 mydeck = Deck()
@@ -56,26 +56,26 @@ class Player(Deck):
         pass
     
     def shuffle(self):
-        return random.shuffle(self.all_cards)
+        return random.shuffle(self.shared_deck)
     
     def Hit(self):
-        self.player_hand.append(self.all_cards.pop(-1))
+        self.player_hand.append(shared_deck.pop())
         for index in self.player_hand:
-            print(f'This is your card: {index} and you have {len(self.player_hand)} cards ')
+            print(index)
  
         pass
     
     def value_of_card(self):
-        for num in self.all_cards:
-            print(num)
+        pass
         
     
 myplayer = Player("player one")
 
 #testing..
 
-len(myplayer.all_cards)
 
+
+shared_deck = []
 #Dealer Class is gonna be made with attributes and methods and will also be used in game logic
 
 class Dealer(Deck):
@@ -86,9 +86,9 @@ class Dealer(Deck):
         
         
     def Hit(self):
-        self.dealer_hand.append((self.all_cards.pop(-1)))
+        self.dealer_hand.append(shared_deck.pop())
         for index in self.dealer_hand:
-            print(f'This is your card: {index} and you have {len(self.dealer_hand)} cards left')
+            print(index)
             
     def Stand(self):
         print(f'You have 17 or more cards left; {len(self.dealer_hand)}')
