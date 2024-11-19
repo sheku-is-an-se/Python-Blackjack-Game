@@ -46,9 +46,8 @@ mydeck.all_cards
 #This will be the player class that will be used in the game logic
 class Player(Deck):
     
-    def __init__(self, name, BA):
+    def __init__(self, name):
         Deck.__init__(self)
-        self.BA = BA
         self.name = name
         self.player_hand = []
         pass
@@ -71,7 +70,7 @@ class Player(Deck):
             print(num)
         
     
-myplayer = Player("player one",500)
+myplayer = Player("player one")
 
 #testing..
 
@@ -104,16 +103,22 @@ mydealer = Dealer()
 #testing...
 
 
+#GAME LOGIC
 
-myplayer.Hit()
-myplayer.Hit()
-mydealer.Hit()
-mydealer.Hit()
+
+
+
+#Player turn
 def player_turn():
-    choice = input("Welcome to blackjack, if you would like to 'hit' type hit and if you would like to 'pass' type pass").lower()
+    choice = input("Welcome to blackjack, if you would like to 'hit' type hit and if you would like to 'stand' type stand").lower()
     while True:
+        myplayer.Hit()
         if choice == 'hit':
             pass
+        elif choice == 'stand':
+            break
+
+player_turn()
 
 
 
