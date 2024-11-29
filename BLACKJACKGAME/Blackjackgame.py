@@ -16,7 +16,6 @@ class Card:
         self.suit = suit
         self.rank = rank
         self.value = values[rank]
-        self.dealer_hand = []
     
     def __eq__(self, other):
         return self.suit == other.suit and self.rank == other.rank
@@ -26,14 +25,14 @@ class Card:
     
         
 
-
+new_deck = []
 '''
 Using a class within another class
 '''
 class Deck(Card):
     
-    def __init__(self):
-        shared_deck = [] 
+    def __init__():
+        shared_deck = new_deck
         for suit in suits:
             for rank in ranks:
                 shared_deck.append(Card(suit,rank))
@@ -42,7 +41,6 @@ class Deck(Card):
 mydeck = Deck()
 # This will be where the cards will go after the dealer hands them out
 Player_one_cards = []
-mydeck.all_cards
 #This will be the player class that will be used in the game logic
 class Player(Deck):
     
@@ -59,11 +57,9 @@ class Player(Deck):
         return random.shuffle(self.shared_deck)
     
     def Hit(self):
-        self.player_hand.append(shared_deck.pop())
-        for index in self.player_hand:
-            print(index)
+        return self.player_hand.append(shared_deck.pop())
+        
  
-        pass
     
     def value_of_card(self):
         pass
@@ -74,8 +70,6 @@ myplayer = Player("player one")
 #testing..
 
 
-
-shared_deck = []
 #Dealer Class is gonna be made with attributes and methods and will also be used in game logic
 
 class Dealer(Deck):
@@ -109,12 +103,12 @@ mydealer = Dealer()
 
 
 #Player turn
+game_on = True
 def player_turn():
     choice = input("Welcome to blackjack, if you would like to 'hit' type hit and if you would like to 'stand' type stand").lower()
-    while True:
-        myplayer.Hit()
+    while game_on:
         if choice == 'hit':
-            pass
+            myplayer.Hit()
         elif choice == 'stand':
             break
 
@@ -122,9 +116,8 @@ player_turn()
 
 
 
-
-
-
+shared_deck
+mydeck.shared_deck
 
 
 
@@ -133,5 +126,4 @@ player_turn()
 #Try to find [name of card] in player.player_hand and see if it is in self.all_cards, use a boolean
 
 
-   
-   
+
