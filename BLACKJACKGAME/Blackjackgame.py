@@ -10,6 +10,15 @@ Creating a Card Class with outside variables¶
 Here we will use some outside variables that we know don't change regardless of the situation, such as a deck of cards. Regardless of what round,match, or game we're playing, we'll still need the same deck of cards
 
 '''
+
+'''
+Methods:(DECK CLASS)
+__init__(self): The constructor method to initialize the deck. This method should create all 52 cards and add them to the cards attribute.
+shuffle(self): A method to shuffle the cards in the deck randomly.
+deal_card(self): A method to remove and return the top card from the deck.
+cards_left(self): A method to return the number of cards remaining in the deck.
+__str__(self): A method to provide a string representation of the deck (optional).
+'''
 class Card:
     
     def __init__(self,suit,rank):
@@ -31,11 +40,12 @@ Using a class within another class
 '''
 class Deck(Card):
     
-    def __init__():
-        shared_deck = new_deck
+    def __init__(self):
+        shared_deck = []
         for suit in suits:
             for rank in ranks:
                 shared_deck.append(Card(suit,rank))
+    def deal_one(self)
                 
 #testing...
 mydeck = Deck()
@@ -57,7 +67,10 @@ class Player(Deck):
         return random.shuffle(self.shared_deck)
     
     def Hit(self):
-        return self.player_hand.append(shared_deck.pop())
+        self.shared_deck.pop()
+        print(self.player_hand.append(self.shared_deck.pop()))
+        for index in self.player_hand:
+            print(index)
         
  
     
