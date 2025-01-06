@@ -90,7 +90,7 @@ class Player(Deck):
     
 myplayer = Player("player one")
 
-#testing..
+#testing....
 
 
 #Dealer Class is gonna be made with attributes and methods and will also be used in game logic
