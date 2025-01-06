@@ -41,14 +41,23 @@ Using a class within another class
 class Deck(Card):
     
     def __init__(self):
-        shared_deck = []
+        self.shared_deck = []
         for suit in suits:
             for rank in ranks:
-                shared_deck.append(Card(suit,rank))
-    def deal_one(self)
-                
+                self.shared_deck.append(Card(suit,rank))
+    def deal_one(self):
+        return self.shared_deck.pop()
+    
+
+    
 #testing...
 mydeck = Deck()
+new_card = [mydeck.deal_one()]
+print(new_card)
+len(mydeck.shared_deck)
+len(mydeck.shared_deck)
+
+len(mydeck.shared_deck)
 # This will be where the cards will go after the dealer hands them out
 Player_one_cards = []
 #This will be the player class that will be used in the game logic
@@ -67,10 +76,11 @@ class Player(Deck):
         return random.shuffle(self.shared_deck)
     
     def Hit(self):
-        self.shared_deck.pop()
-        print(self.player_hand.append(self.shared_deck.pop()))
-        for index in self.player_hand:
-            print(index)
+        self.player_hand.append(mydeck.deal_one())
+        for card in self.player_hand:
+            print(card)
+        
+        
         
  
     
@@ -93,9 +103,8 @@ class Dealer(Deck):
         
         
     def Hit(self):
-        self.dealer_hand.append(shared_deck.pop())
-        for index in self.dealer_hand:
-            print(index)
+        self.dealer_hand.append(mydeck.deal_one())
+        
             
     def Stand(self):
         print(f'You have 17 or more cards left; {len(self.dealer_hand)}')
@@ -118,8 +127,8 @@ mydealer = Dealer()
 #Player turn
 game_on = True
 def player_turn():
-    choice = input("Welcome to blackjack, if you would like to 'hit' type hit and if you would like to 'stand' type stand").lower()
     while game_on:
+        choice = input("Welcome to blackjack, if you would like to 'hit' type hit and if you would like to 'stand' type stand").lower()
         if choice == 'hit':
             myplayer.Hit()
         elif choice == 'stand':
@@ -128,10 +137,9 @@ def player_turn():
 player_turn()
 
 
+values.values()
 
-shared_deck
-mydeck.shared_deck
-
+print(myplayer.Hit())
 
 
 
