@@ -47,19 +47,17 @@ class Deck(Card):
                 self.shared_deck.append(Card(suit,rank))
     def deal_one(self):
         return self.shared_deck.pop()
+
+    def shuffle(self):
+        random.shuffle(self.shared_deck)
     
 
     
 #testing...
 mydeck = Deck()
-new_card = [mydeck.deal_one()]
-print(new_card)
-len(mydeck.shared_deck)
-len(mydeck.shared_deck)
 
-len(mydeck.shared_deck)
-# This will be where the cards will go after the dealer hands them out
-Player_one_cards = []
+
+mydeck.shuffle()
 #This will be the player class that will be used in the game logic
 class Player(Deck):
     
@@ -72,8 +70,6 @@ class Player(Deck):
     def Stand():
         pass
     
-    def shuffle(self):
-        return random.shuffle(self.shared_deck)
     
     def Hit(self):
         self.player_hand.append(mydeck.deal_one())
@@ -85,7 +81,12 @@ class Player(Deck):
  
     
     def value_of_card(self):
-        pass
+        for object in self.player_hand:
+            if object.rank == 'King' or object.rank == 'Queen' or object.rank == 'Jack' :
+                print('10')
+            else:
+                print(object.rank)
+        
         
     
 myplayer = Player("player one")
@@ -104,6 +105,7 @@ class Dealer(Deck):
         
     def Hit(self):
         self.dealer_hand.append(mydeck.deal_one())
+
         
             
     def Stand(self):
@@ -122,6 +124,11 @@ mydealer = Dealer()
 #GAME LOGIC
 
 
+#Deal two cards to player and dealer
+myplayer.Hit()
+myplayer.Hit()
+mydealer.Hit()
+mydealer.Hit()
 
 
 #Player turn
@@ -137,14 +144,17 @@ def player_turn():
 player_turn()
 
 
-values.values()
-
-print(myplayer.Hit())
 
 
 
 #Im going to compare player.all_cards and dealer.all_cards, and make sure that if a card is moved from one variable, the same card is moved from the other variable
 #Try to find [name of card] in player.player_hand and see if it is in self.all_cards, use a boolean
 
+type(myplayer.player_hand)
+myplayer.value_of_card()
+for key in myplayer.player_hand:
+    print(key)
 
+myplayer.player_hand[5]
 
+myplayer.rank
