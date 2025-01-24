@@ -73,20 +73,19 @@ class Player(Deck):
     
     def Hit(self):
         self.player_hand.append(mydeck.deal_one())
-        for card in self.player_hand:
-            print(card)
+        
         
         
         
  
     
     def value_of_card(self):
-        for object in self.player_hand:
-            if object.rank == 'King' or object.rank == 'Queen' or object.rank == 'Jack' :
-                print('10')
-            else:
-                print(object.rank)
-        
+        counter = 0
+        for card in self.player_hand:
+            counter += card.value
+        print("Values:" ,counter)
+
+    
         
     
 myplayer = Player("player one")
@@ -116,6 +115,12 @@ class Dealer(Deck):
                 print('Thank you for playing, wait for results')
             else:
                 pass
+
+    def value_of_card(self):
+        total = 0
+        for card in self.dealer_hand:
+            total += card.value
+        print("Values:" ,total)
 mydealer = Dealer()
         
 #testing...
@@ -132,13 +137,30 @@ mydealer.Hit()
 
 
 #Player turn
-game_on = True
 def player_turn():
+    game_on = True
+    num_of_round = 0
     while game_on:
-        choice = input("Welcome to blackjack, if you would like to 'hit' type hit and if you would like to 'stand' type stand").lower()
-        if choice == 'hit':
+        choice = int(input("Welcome to blackjack, how many games would you like to play?").lower())
+
+        num_of_round += 1
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print(f'Game {num_of_round} of {choice}')
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print("Your hand:")
+        for card in myplayer.player_hand:
+            print(card)
+        myplayer.value_of_card()
+        print("\n")
+        print("Dealer's hand:")
+        for card in mydealer.dealer_hand:
+            print(card)
+        mydealer.value_of_card()
+        sec_choice = input("Please choose 'Hit' or 'Stand':").lower()
+        if sec_choice == 'hit':
             myplayer.Hit()
-        elif choice == 'stand':
+        elif sec_choice == 'stand':
+            game_on = False
             break
 
 player_turn()
@@ -155,6 +177,3 @@ myplayer.value_of_card()
 for key in myplayer.player_hand:
     print(key)
 
-myplayer.player_hand[5]
-
-myplayer.rank
