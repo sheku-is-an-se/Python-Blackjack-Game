@@ -55,9 +55,8 @@ class Deck(Card):
     
 #testing...
 mydeck = Deck()
-
-
 mydeck.shuffle()
+
 #This will be the player class that will be used in the game logic
 class Player(Deck):
     
@@ -83,7 +82,8 @@ class Player(Deck):
         counter = 0
         for card in self.player_hand:
             counter += card.value
-        print("Values:" ,counter)
+            
+        return counter
 
     
         
@@ -121,6 +121,7 @@ class Dealer(Deck):
         for card in self.dealer_hand:
             total += card.value
         print("Values:" ,total)
+
 mydealer = Dealer()
         
 #testing...
@@ -140,30 +141,55 @@ mydealer.Hit()
 def player_turn():
     game_on = True
     num_of_round = 0
-    while game_on:
-        choice = int(input("Welcome to blackjack, how many games would you like to play?").lower())
+    testing = True
+    num_of_round += 1
+    while testing:
+        try:
+            choice = int(input("Welcome to blackjack, how many games would you like to play?").lower())
+            testing = False  # Exit the loop if input is a valid integer
+        except ValueError:
+            print("Invalid input. Please enter an integer.")
+        while testing == False and game_on == True:
 
-        num_of_round += 1
-        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        print(f'Game {num_of_round} of {choice}')
-        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        print("Your hand:")
-        for card in myplayer.player_hand:
-            print(card)
-        myplayer.value_of_card()
-        print("\n")
-        print("Dealer's hand:")
-        for card in mydealer.dealer_hand:
-            print(card)
-        mydealer.value_of_card()
-        sec_choice = input("Please choose 'Hit' or 'Stand':").lower()
-        if sec_choice == 'hit':
-            myplayer.Hit()
-        elif sec_choice == 'stand':
-            game_on = False
-            break
 
+            print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            print(f'Game {num_of_round} of {choice}')
+            print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            print("Your hand:")
+            for card in myplayer.player_hand:
+                print(card)
+            print("Values:",myplayer.value_of_card())
+            print("\n")
+            print("Dealer's hand:")
+            for card in mydealer.dealer_hand[0:1]:
+                print(card)
+            print("Hidden Card")
+            print("\n")
+            
+            #User Input
+            sec_choice = input("Please choose 'Hit' or 'Stand':").lower()
+    
+            if sec_choice == 'Hit'.lower():
+                myplayer.Hit()
+            elif sec_choice == 'Stand'.lower() or sec_choice == 'Quit'.lower():
+                break
+            if myplayer.value_of_card() > 21:
+                num_of_round += 1
+                print("\n")
+                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                print("Player BUSTS, Dealer wins!")
+                print("Final Value:",myplayer.value_of_card())
+                print('Final Card:', myplayer.player_hand[-1] )
+                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                print("\n")
+                break
+    
+            
 player_turn()
+        
+
+    
+
 
 
 
@@ -172,8 +198,5 @@ player_turn()
 #Im going to compare player.all_cards and dealer.all_cards, and make sure that if a card is moved from one variable, the same card is moved from the other variable
 #Try to find [name of card] in player.player_hand and see if it is in self.all_cards, use a boolean
 
-type(myplayer.player_hand)
-myplayer.value_of_card()
-for key in myplayer.player_hand:
-    print(key)
+
 
