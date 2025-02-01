@@ -1,5 +1,6 @@
 # We'll use this later
 import random 
+import time
 '''This is the outside variables of the cards'''
 suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
 ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
@@ -60,10 +61,11 @@ mydeck.shuffle()
 #This will be the player class that will be used in the game logic
 class Player(Deck):
     
-    def __init__(self, name):
+    def __init__(self, name,deck):
         Deck.__init__(self)
         self.name = name
         self.player_hand = []
+        self.deck = deck
         pass
         
     def Stand():
@@ -72,6 +74,10 @@ class Player(Deck):
     
     def Hit(self):
         self.player_hand.append(mydeck.deal_one())
+    
+    def bet(self,bet):
+        print("$" + bet)
+        pass
         
         
         
@@ -83,12 +89,16 @@ class Player(Deck):
         for card in self.player_hand:
             counter += card.value
             
+        if counter > 21:
+            for card in self.player_hand:
+                if card.rank == 'Ace':
+                    counter -= 10
         return counter
 
     
         
     
-myplayer = Player("player one")
+
 
 #testing......
 
@@ -97,9 +107,11 @@ myplayer = Player("player one")
 
 class Dealer(Deck):
     
-    def __init__(self):
+    def __init__(self, deck):
         Deck.__init__(self)
         self.dealer_hand = []
+        self.deck = deck
+        pass
         
         
     def Hit(self):
@@ -108,21 +120,17 @@ class Dealer(Deck):
         
             
     def Stand(self):
-        print(f'You have 17 or more cards left; {len(self.dealer_hand)}')
-        if len(self.dealer_hand) >= 17:
-            user_input = input('End of Round; no more cards will be given to you, Y or N?')
-            if user_input.upper() == 'Y':
-                print('Thank you for playing, wait for results')
-            else:
-                pass
+        pass
 
     def value_of_card(self):
         total = 0
         for card in self.dealer_hand:
             total += card.value
-        print("Values:" ,total)
+        return total
 
-mydealer = Dealer()
+#Create player and dealer, sharing a single deck through arguments
+myplayer = Player("player one", mydeck)
+mydealer = Dealer(mydeck)
         
 #testing...
 
@@ -143,9 +151,12 @@ def player_turn():
     num_of_round = 0
     testing = True
     num_of_round += 1
+    global round
+    round = 0
     while testing:
         try:
             choice = int(input("Welcome to blackjack, how many games would you like to play?").lower())
+            round += choice
             testing = False  # Exit the loop if input is a valid integer
         except ValueError:
             print("Invalid input. Please enter an integer.")
@@ -164,6 +175,7 @@ def player_turn():
             for card in mydealer.dealer_hand[0:1]:
                 print(card)
             print("Hidden Card")
+            print("Values:",)
             print("\n")
             
             #User Input
@@ -183,20 +195,69 @@ def player_turn():
                 print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
                 print("\n")
                 break
-    
-            
+
+
+print('shuffling...')   
+time.sleep(4)
+print('Place your bets')
+wager = input('How much would you like to wager? Note: The maximum bet is $2,500.')
+myplayer.bet(wager)
+print('@@@@@@@@@@@@@@@@@@@@@@@@@@')
+print('Choose: Grey:1, Black:10, Blue: 100, or Green: 500')
+print('@@@@@@@@@@@@@@@@@@@@@@@@@@')
+time.sleep(4)            
 player_turn()
-        
 
+            
+
+def dealer_turn():
+    while mydealer.value_of_card() <= 17:
+        mydealer.Hit()
+        
+        
+    print("Dealer's hand:")
+    for card in mydealer.dealer_hand:
+        print(card)
+    print("Values:", mydealer.value_of_card())
+    print("\n")    
+    
+    if mydealer.value_of_card() > 21:
+        print("\n")
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print("Dealer BUSTS, you win!")
+        print("\n")
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    
+    
+    elif mydealer.value_of_card() > myplayer.value_of_card():
+        print("\n")
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print("Dealer Wins!")
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print("\n")
+        
+    elif myplayer.value_of_card() > mydealer.value_of_card():
+        print("You win!")
+    
+    else:
+        print("\n")
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print("Draw!")
+        print("\n")
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     
 
+if myplayer.value_of_card() <= 21:
+    dealer_turn()
+else:
+    pass
 
 
-
-
-
-#Im going to compare player.all_cards and dealer.all_cards, and make sure that if a card is moved from one variable, the same card is moved from the other variable
-#Try to find [name of card] in player.player_hand and see if it is in self.all_cards, use a boolean
-
+#def play_again():
+    #if round > 1:
+        #player_turn()
+        #dealer_turn()
+    #else:
+        #pass
 
 
