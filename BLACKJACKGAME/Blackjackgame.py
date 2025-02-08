@@ -61,11 +61,12 @@ mydeck.shuffle()
 #This will be the player class that will be used in the game logic
 class Player(Deck):
     
-    def __init__(self, name,deck):
+    def __init__(self, name,deck,balance = 0):
         Deck.__init__(self)
         self.name = name
         self.player_hand = []
         self.deck = deck
+        self.balance = balance
         pass
         
     def Stand():
@@ -75,9 +76,13 @@ class Player(Deck):
     def Hit(self):
         self.player_hand.append(mydeck.deal_one())
     
-    def bet(self,bet):
-        print("$" + bet)
-        pass
+    def deposit(self):
+        amount = int(input("How much would you like to wager? Note: The maximum bet is $2,500.25"))
+        if amount > 0:
+            self.balance += amount
+            print(f"Deposited ${amount}. New balance: ${self.balance}")
+        else:
+            print("Invalid deposit amount.")
         
         
         
@@ -135,7 +140,99 @@ mydealer = Dealer(mydeck)
 #testing...
 
 
+
+
+
+
+
+class Chips():
+
+    def __init__(self, total=100):
+        self.total = total  # This can be set to a default value or supplied by a user input
+        self.bet = 0
+
+    def win_bet(self):
+        self.total += self.bet
+
+    def lose_bet(self):
+        self.total -= self.betS
+
+def take_bet(chips):
+
+    while True:
+
+        try:
+            chips.bet = int(input("How many chips would you like to bet?: "))
+        except:
+            print("Sorry please provide an intenger")
+        else:
+            if chips.bet > chips.total:
+                print(f"Sorry, you do not have enough chips! You have: {chips.total}")
+            else:
+                break
+
+#STEP 9: WRITE FUNCTIONS TO DISPLAY CARDS
+
+def show_some(player,dealer):
+    print("Your hand:")
+    for card in player.player_hand:
+        print(card)
+    print("Values:",player.value_of_card())
+    print("\n")
+    print("Dealer's hand:")
+    for card in dealer.dealer_hand[0:1]:
+        print(card)
+    print("Hidden Card")
+    print("Values:",)
+    print("\n")
+            
+
+def show_all(player,dealer):
+
+    print("Dealer's hand:")
+    for card in dealer.dealer_hand:
+        print(card)
+    print("Values:", dealer.value_of_card())
+    print("\n")
+
+
+
+def round_count():
+    global choice
+    while True:
+            try:
+                choice = int(input("Welcome to blackjack, how many games would you like to play?").lower())
+                break
+            except ValueError:
+                print("Invalid input. Please enter an integer.")
+
+
+
+def bet_count():   
+    print('shuffling...')   
+    #time.sleep(4)
+    print('Place your bets')
+    myplayer.deposit()
+    #time.sleep(4)            
+
+
+        
+
+        
+        
+        
+
+
+
+
+
+
+#AND NOW ON TO THE GAME!!
+
 #GAME LOGIC
+
+
+
 
 
 #Deal two cards to player and dealer
@@ -145,68 +242,43 @@ mydealer.Hit()
 mydealer.Hit()
 
 
-#Player turn
 def player_turn():
-    game_on = True
+    global num_of_round
     num_of_round = 0
-    testing = True
-    num_of_round += 1
-    global round
-    round = 0
-    while testing:
-        try:
-            choice = int(input("Welcome to blackjack, how many games would you like to play?").lower())
-            round += choice
-            testing = False  # Exit the loop if input is a valid integer
-        except ValueError:
-            print("Invalid input. Please enter an integer.")
-        while testing == False and game_on == True:
+    num_of_round +=1
+    while True:
 
+        
+        #show cards, but keep one of the dealer's card hidden
+        show_some(myplayer,mydealer)
+        
+        #User Input
+        sec_choice = input("Please choose 'Hit' or 'Stand':").lower()
 
-            print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-            print(f'Game {num_of_round} of {choice}')
-            print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-            print("Your hand:")
-            for card in myplayer.player_hand:
-                print(card)
-            print("Values:",myplayer.value_of_card())
+        if sec_choice == 'Hit'.lower():
+            myplayer.Hit()
+        elif sec_choice == 'Stand'.lower() or sec_choice == 'Quit'.lower():
+            num_of_round += 1
+            break
+        if myplayer.value_of_card() > 21:
+            num_of_round += 1
             print("\n")
-            print("Dealer's hand:")
-            for card in mydealer.dealer_hand[0:1]:
-                print(card)
-            print("Hidden Card")
-            print("Values:",)
+            print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+            print("Player BUSTS, Dealer wins!")
+            print("Final Value:",myplayer.value_of_card())
+            print('Final Card:', myplayer.player_hand[-1] )
+            print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
             print("\n")
-            
-            #User Input
-            sec_choice = input("Please choose 'Hit' or 'Stand':").lower()
+            break
     
-            if sec_choice == 'Hit'.lower():
-                myplayer.Hit()
-            elif sec_choice == 'Stand'.lower() or sec_choice == 'Quit'.lower():
-                break
-            if myplayer.value_of_card() > 21:
-                num_of_round += 1
-                print("\n")
-                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                print("Player BUSTS, Dealer wins!")
-                print("Final Value:",myplayer.value_of_card())
-                print('Final Card:', myplayer.player_hand[-1] )
-                print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                print("\n")
-                break
+  
 
 
-print('shuffling...')   
-time.sleep(4)
-print('Place your bets')
-wager = input('How much would you like to wager? Note: The maximum bet is $2,500.')
-myplayer.bet(wager)
-print('@@@@@@@@@@@@@@@@@@@@@@@@@@')
-print('Choose: Grey:1, Black:10, Blue: 100, or Green: 500')
-print('@@@@@@@@@@@@@@@@@@@@@@@@@@')
-time.sleep(4)            
-player_turn()
+
+
+
+
+
 
             
 
@@ -247,17 +319,46 @@ def dealer_turn():
         print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     
 
-if myplayer.value_of_card() <= 21:
-    dealer_turn()
-else:
-    pass
 
 
-#def play_again():
-    #if round > 1:
-        #player_turn()
-        #dealer_turn()
-    #else:
-        #pass
+#translates to dealer after, players turn
+
+
+#play again function
+def play_game():  # Renamed for clarity
+    myplayer.player_hand = []  # Clear player's hand
+    mydealer.dealer_hand = []  # Clear dealer's hand
+    # ... (Other reset logic, like handling bets)
+    myplayer.Hit()
+    myplayer.Hit()
+    mydealer.Hit()
+    mydealer.Hit()
+    player_turn()
+    if myplayer.value_of_card() <= 21:
+        dealer_turn()
+
+
+def main():  # Main game loop
+    round_count()  # Get number of rounds
+    for round_num in range(1, choice + 1):  # Loop for the specified number of rounds
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        print(f'Game {round_num} of {choice}')
+        print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        play_game() # Play a single round
+        # Ask if the player wants to continue (if not the last round)
+        if round_num < choice:
+            if input("Play again? (y/n): ").lower() != 'y':
+                break  # Exit the loop if the player doesn't want to continue
+        
+    print("@@@@@ Thanks for Playing!!!!! @@@@@@@")
+# Trails to dealer turn....Organize it later
+
+# Run the game
+if __name__ == "__main__":
+    main()
+
+
+
+
 
 
