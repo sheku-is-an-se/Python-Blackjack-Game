@@ -6,6 +6,8 @@ suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
 ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
 values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 
             'Nine':9, 'Ten':10, 'Jack':10, 'Queen':10, 'King':10, 'Ace':11}
+
+Casino_chips = {"Black":100, "Green": 25, "Red":5, "White":1}
 '''
 Creating a Card Class with outside variables¶
 Here we will use some outside variables that we know don't change regardless of the situation, such as a deck of cards. Regardless of what round,match, or game we're playing, we'll still need the same deck of cards
@@ -155,7 +157,12 @@ class Chips():
         self.total += self.bet
 
     def lose_bet(self):
-        self.total -= self.betS
+        self.total -= self.bet
+
+
+
+
+
 
 def take_bet(chips):
 
@@ -170,6 +177,7 @@ def take_bet(chips):
                 print(f"Sorry, you do not have enough chips! You have: {chips.total}")
             else:
                 break
+
 
 #STEP 9: WRITE FUNCTIONS TO DISPLAY CARDS
 
@@ -208,12 +216,23 @@ def round_count():
 
 
 
-def bet_count():   
+def bet_count(chips):
     print('shuffling...')   
-    #time.sleep(4)
+    time.sleep(4)
     print('Place your bets')
-    myplayer.deposit()
-    #time.sleep(4)            
+    time.sleep(4)  
+
+    
+    while True:
+        try:
+            chips.bet = int(input('How many chips would you like to bet? '))
+        except ValueError:
+            print('Sorry, a bet must be an integer!')
+        else:
+            if chips.bet > chips.total:
+                print("Sorry, your bet can't exceed",chips.total)
+            else:
+                break              
 
 
         
@@ -242,7 +261,7 @@ mydealer.Hit()
 mydealer.Hit()
 
 
-def player_turn():
+def player_turn(chips):
     global num_of_round
     num_of_round = 0
     num_of_round +=1
@@ -265,6 +284,7 @@ def player_turn():
             print("\n")
             print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
             print("Player BUSTS, Dealer wins!")
+            chips.lose_bet()
             print("Final Value:",myplayer.value_of_card())
             print('Final Card:', myplayer.player_hand[-1] )
             print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
@@ -282,7 +302,7 @@ def player_turn():
 
             
 
-def dealer_turn():
+def dealer_turn(chips):
     while mydealer.value_of_card() <= 17:
         mydealer.Hit()
         
@@ -297,6 +317,7 @@ def dealer_turn():
         print("\n")
         print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
         print("Dealer BUSTS, you win!")
+        chips.win_bet()
         print("\n")
         print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     
@@ -305,11 +326,13 @@ def dealer_turn():
         print("\n")
         print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
         print("Dealer Wins!")
+        chips.lose_bet()
         print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
         print("\n")
         
     elif myplayer.value_of_card() > mydealer.value_of_card():
         print("You win!")
+        chips.win_bet()
     
     else:
         print("\n")
@@ -325,26 +348,35 @@ def dealer_turn():
 
 
 #play again function
-def play_game():  # Renamed for clarity
+def play_game(chips):  # Renamed for clarity
     myplayer.player_hand = []  # Clear player's hand
     mydealer.dealer_hand = []  # Clear dealer's hand
+    chips.bet
     # ... (Other reset logic, like handling bets)
     myplayer.Hit()
     myplayer.Hit()
     mydealer.Hit()
     mydealer.Hit()
-    player_turn()
+     
+    
+    # Prompt the Player for their bet
+    take_bet(chips)
+    player_turn(chips)
     if myplayer.value_of_card() <= 21:
-        dealer_turn()
+        dealer_turn(chips)
+    
+    # Inform Player of their chips total 
+    print("\nPlayer's winnings stand at",chips.total)
 
 
 def main():  # Main game loop
     round_count()  # Get number of rounds
+    mychips = Chips()
     for round_num in range(1, choice + 1):  # Loop for the specified number of rounds
         print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
         print(f'Game {round_num} of {choice}')
         print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-        play_game() # Play a single round
+        play_game(mychips) # Play a single round
         # Ask if the player wants to continue (if not the last round)
         if round_num < choice:
             if input("Play again? (y/n): ").lower() != 'y':
