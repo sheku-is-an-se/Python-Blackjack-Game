@@ -9,15 +9,15 @@ values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8,
 
 Casino_chips = {"Black":100, "Green": 25, "Red":5, "White":1}
 '''
-Creating a Card Class with outside variables¶
+Here we will use some outside variables that we know don't change regardless of the situation, such as a deck of cards.
 
 '''
 
 '''
 Methods:(DECK CLASS)
 __init__(self): The __init__ method to create the deck. The function needs to create all 52 cards and put them into the cards attribute.
-shuffle(self): A function of randomly rearranging the deck cards.
-deal_card(self): A function to discard and return the top card on the deck.
+shuffle(self): A function that randomly shuffles the deck.
+deal_card(self): A function that takes away a card and returs the top card on the deck.
 cards_left(self): A function to return how many cards are left in the deck.
 __str__(self): An optional method to offer a string description of the deck.
 '''
@@ -59,7 +59,7 @@ class Deck(Card):
 mydeck = Deck()
 mydeck.shuffle()
 
-#This will be the player class that will be used in the game logic
+#Player Class
 class Player(Deck):
     
     def __init__(self, name,deck,balance = 0):
@@ -78,7 +78,7 @@ class Player(Deck):
         self.player_hand.append(mydeck.deal_one())
     
     def deposit(self):
-        amount = int(input("How much would you like to wager? Note: The maximum bet is $2,500.25"))
+        amount = int(input("How much would you care to wager? Note: The maximum bet is $2,500.25"))
         if amount > 0:
             self.balance += amount
             print(f"Deposited ${amount}. New balance: ${self.balance}")
@@ -109,7 +109,7 @@ class Player(Deck):
 #testing......
 
 
-#Dealer Class is gonna be made with attributes and methods and will also be used in game logic
+#Dealer Class  
 
 class Dealer(Deck):
     
@@ -134,7 +134,7 @@ class Dealer(Deck):
             total += card.value
         return total
 
-#Create player and dealer, sharing a single deck through arguments
+#Created player and dealer will be sharing a single deck through arguments
 myplayer = Player("player one", mydeck)
 mydealer = Dealer(mydeck)
         
@@ -168,7 +168,7 @@ def take_bet(chips):
     while True:
 
         try:
-            chips.bet = int(input("How many chips would you like to bet?: "))
+            chips.bet = int(input("How many chips would you care to bet?: "))
         except:
             print("Sorry please provide an intenger")
         else:
@@ -208,7 +208,7 @@ def round_count():
     global choice
     while True:
             try:
-                choice = int(input("Welcome to blackjack, how many games would you like to play?").lower())
+                choice = int(input("Welcome to blackjack, how many games would you care to play?").lower())
                 break
             except ValueError:
                 print("Invalid input. Please enter an integer.")
@@ -224,7 +224,7 @@ def bet_count(chips):
     
     while True:
         try:
-            chips.bet = int(input('How many chips would you like to bet? '))
+            chips.bet = int(input('How many chips would you care to bet? '))
         except ValueError:
             print('Sorry, a bet must be an integer!')
         else:
@@ -267,7 +267,7 @@ def player_turn(chips):
     while True:
 
         
-        #show cards, but keep one of the dealer's card hidden
+        #keep one of the dealer's card hidden
         show_some(myplayer,mydealer)
         
         #User Input
