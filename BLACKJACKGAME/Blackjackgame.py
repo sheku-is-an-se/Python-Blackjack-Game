@@ -9,7 +9,7 @@ values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8,
 
 Casino_chips = {"Black":100, "Green": 25, "Red":5, "White":1}
 '''
-Creating a Card Class with outside variables¶j
+Creating a Card Class with outside variables¶
 
 '''
 
